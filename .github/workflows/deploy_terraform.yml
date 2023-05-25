@@ -12,8 +12,7 @@ permissions:
 
 env:
   TF_LOG: INFO
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest    
@@ -25,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: terraform
-          path: /artifact
+          path: .
 
 
 
@@ -46,7 +45,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: terraform
-          path: /artifact
+          path: .
   
 
       - name: Configure AWS credentials from AWS account
@@ -125,5 +124,5 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'pull_request')
         run: terraform apply -auto-approve -input=false
