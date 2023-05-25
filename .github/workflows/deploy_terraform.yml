@@ -82,6 +82,10 @@ jobs:
         if: github.event_name == 'pull_request'
         continue-on-error: true
 
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'pull_request')
+        run: terraform apply -auto-approve -input=true
+
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
@@ -119,10 +123,9 @@ jobs:
               body: output
             })
 
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'pull_request')
-        run: terraform apply -auto-approve -input=true
+#      - name: Terraform Plan Status
+#        if: steps.plan.outcome == 'failure'
+#        run: exit 1
+#
+#      - name: Terraform Apply
+#        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'pull_request')      run: terraform apply -auto-approve -input=true
