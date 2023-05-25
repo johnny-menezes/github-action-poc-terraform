@@ -2,7 +2,7 @@ name: "Deploy-SSM"
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
       
 permissions:
@@ -124,5 +124,5 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'pull_request')
+        if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'pull_request')
         run: terraform apply -auto-approve -input=true
