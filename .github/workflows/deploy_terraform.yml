@@ -12,8 +12,7 @@ permissions:
 
 env:
   TF_LOG: INFO
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-
+  
 jobs:
   build:
     runs-on: ubuntu-latest    
